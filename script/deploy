@@ -7,7 +7,7 @@ ENV=production
 bundle exec newrelic deployments -e $ENV -u $USER -r $GIT_SHA
 
 PIDFILE="tmp/pids/unicorn.pid"
-if [ -f $FILE ]; then
+if [ -f $PIDFILE ]; then
   echo "Restarting unicorn"
   kill -USR2 `cat $PIDFILE`
   sleep 1
