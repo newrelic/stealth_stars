@@ -54,4 +54,6 @@ namespace :content do
       TopSecretDoc.create(:title => title, :body => body, :author => author)
     end
   end
+
+  task :generate => [:operatives, :missions, :assign_missions, :create_docs]
 end
