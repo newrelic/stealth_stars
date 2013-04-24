@@ -1,4 +1,4 @@
-Espionage::Application.routes.draw do
+StealthStars::Application.routes.draw do
   resources :missions, :only => :index
   resources :top_secret_docs, :only => [:index, :show]
   resources :operatives, :only => :index

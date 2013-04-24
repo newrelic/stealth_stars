@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Espionage::Application.load_tasks
+StealthStars::Application.load_tasks
