@@ -11,10 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130424003927) do
+ActiveRecord::Schema.define(:version => 20130424013909) do
 
   create_table "missions", :force => true do |t|
     t.string   "codename"
+    t.integer  "priority"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -28,6 +29,14 @@ ActiveRecord::Schema.define(:version => 20130424003927) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "top_secret_docs", :force => true do |t|
+    t.string   "title"
+    t.binary   "encrypted_body", :limit => 1048576
+    t.integer  "author_id"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
 end

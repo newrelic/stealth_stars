@@ -20,21 +20,38 @@ namespace :content do
     animals_file = sample_data_path('animals.txt')
     colors = File.read(colors_file).split("\n")
     animals = File.read(animals_file).split("\n")
+    codenames = []
     colors.each do |color|
       animals.each do |animal|
-        codename = "#{color} #{animal}"
-        Mission.create(:codename => codename)
+        codenames << "#{color} #{animal}"
       end
+    end
+    $stderr.puts "Creating #{codenames.size} missions"
+    codenames.shuffle.each do |codename|
+      Mission.create(:codename => codename, :priority => (rand(5) + 1))
     end
   end
 
   task :assign_missions => :environment do
     all_missions = Mission.all
+    $stderr.puts "Assigning missions to #{Operative.count} operatives"
     Operative.all.each do |operative|
-      num_missions = rand(5)
+      num_missions = rand(50)
       num_missions.times do
         operative.missions << all_missions.sample
       end
+    end
+  end
+
+  task :create_docs => :environment do
+    n = 100
+    STDERR.puts "Creating #{n} Top Secret Docs..."
+    operatives = Operative.all
+    n.times do |i|
+      title = "Document #{i}"
+      body = `fortune -n 100 -l | cowsay -f dragon.cow`
+      author = operatives.sample
+      TopSecretDoc.create(:title => title, :body => body, :author => author)
     end
   end
 end
