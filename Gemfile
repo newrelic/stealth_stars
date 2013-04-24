@@ -16,3 +16,4 @@ gem "bootstrap-sass", ">= 2.3.0.0"
 gem 'jquery-rails'
 
 gem 'unicorn'
+gem 'newrelic_rpm', '~> 3.6.0'
