@@ -21,7 +21,6 @@ end
 
 class Worker
   def initialize(target, queue)
-    @id = 'hi'
     @target = target
     @state = :stopped
     @queue = queue
@@ -80,9 +79,9 @@ class WorkerPool
     @last_mark ||= Time.now
   end
 
-  def scale_to(target, duration)
+  def scale_to(target, duration=nil)
     workers_delta = (target - @workers.size)
-    interval = (duration / workers_delta).abs
+    interval = duration ? (duration / workers_delta).abs : 0
     workers_delta.abs.times do
       if workers_delta > 0
         add_worker
@@ -125,18 +124,26 @@ class WorkerPool
   end
 end
 
-workers = []
-interval = 120
-target = ARGV[0]
+if ARGV.size != 2 || !['steady', 'oscillate'].include?(ARGV[0])
+  $stderr.puts "Usage: traffic (steady|oscillate) <target URL>"
+  exit
+end
+
+type = ARGV[0]
+target = ARGV[1]
 rsp_queue = Queue.new
 
 pool = WorkerPool.new(target)
 
-baseline = 5
-max = 20
-
-loop do
-  pool.scale_to(max, 60*2)
-  pool.scale_to(baseline, 60*2)
-  pool.wait(60*2)
+if type == 'steady'
+  pool.scale_to(4)
+  loop { pool.wait(60) }
+elsif type == 'oscillate'
+  baseline = 5
+  max = 20
+  loop do
+    pool.scale_to(max, 60*2)
+    pool.scale_to(baseline, 60*2)
+    pool.wait(60*2)
+  end
 end
