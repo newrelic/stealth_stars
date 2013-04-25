@@ -20,13 +20,9 @@ ActiveRecord::Schema.define(:version => 20130424013909) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "missions_operatives", :id => false, :force => true do |t|
-    t.integer "mission_id"
-    t.integer "operative_id"
-  end
-
   create_table "operatives", :force => true do |t|
     t.string   "name"
+    t.integer  "mission_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

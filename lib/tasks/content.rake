@@ -9,6 +9,7 @@ namespace :content do
   task :operatives => :environment do
     names_file = sample_data_path('names.txt')
     names = File.read(names_file).split("\n")
+    names *= 5
     $stderr.puts "Creating #{names.size} Operatives"
     names.each do |name|
       Operative.create(:name => name)
@@ -35,11 +36,9 @@ namespace :content do
   task :assign_missions => :environment do
     all_missions = Mission.all
     $stderr.puts "Assigning missions to #{Operative.count} operatives"
-    Operative.all.each do |operative|
-      num_missions = rand(50)
-      num_missions.times do
-        operative.missions << all_missions.sample
-      end
+    Operative.find_each do |operative|
+      operative.mission = all_missions.sample
+      operative.save
     end
   end
 
