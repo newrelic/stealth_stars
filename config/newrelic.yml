@@ -128,7 +128,7 @@ common: &default_settings
     # New Relic. Valid values are any float value, or (default) "apdex_f",
     # which will use the threshold for an dissatisfying Apdex
     # controller action - four times the Apdex T value.
-    transaction_threshold: 1.0
+    transaction_threshold: 0.01
 
     # When transaction tracer is on, SQL statements can optionally be
     # recorded. The recorder has three modes, "off" which sends no

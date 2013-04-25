@@ -139,11 +139,11 @@ if type == 'steady'
   pool.scale_to(4)
   loop { pool.wait(60) }
 elsif type == 'oscillate'
-  baseline = 5
-  max = 20
+  baseline = 20
+  max = 70
   loop do
     pool.scale_to(max, 60*2)
     pool.scale_to(baseline, 60*2)
-    pool.wait(60*2)
+    pool.wait(60*3)
   end
 end
