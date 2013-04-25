@@ -3,18 +3,18 @@ class TopSecretDoc < ActiveRecord::Base
   ROUNDS = 10
 
   attr_accessor :body
+  attr_accessible :title, :body, :author
 
   belongs_to :author, :class_name => 'Operative'
 
-  attr_accessible :title, :body, :author
-
   before_save :encrypt_body
-  after_save :decrypt_body
-  after_find :decrypt_body
 
   def encrypt_body
     self.encrypted_body = encrypt(body)
   end
+
+  after_save :decrypt_body
+  after_find :decrypt_body
 
   def decrypt_body
     self.body = decrypt(encrypted_body) unless encrypted_body.blank?
