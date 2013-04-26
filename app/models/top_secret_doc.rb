@@ -13,12 +13,13 @@ class TopSecretDoc < ActiveRecord::Base
     self.encrypted_body = encrypt(body)
   end
 
-  after_save :decrypt_body
   after_find :decrypt_body
 
   def decrypt_body
     self.body = decrypt(encrypted_body) unless encrypted_body.blank?
   end
+
+  private
 
   def cipher
     ActiveSupport::MessageEncryptor.new(TOP_SECRET_SECRET)
