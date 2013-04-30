@@ -10,7 +10,7 @@ class TopSecretDoc < ActiveRecord::Base
   before_save :encrypt_body
 
   def encrypt_body
-    self.encrypted_body = encrypt(body)
+    self.encrypted_body = encrypt(@body)
   end
 
   after_find :decrypt_body
